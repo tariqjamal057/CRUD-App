@@ -1,0 +1,8 @@
+# Mysql query file 
+/query.sql
+
+# configuration file
+/config
+
+# node_modules
+/node_modules

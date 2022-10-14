@@ -1,0 +1,46 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+.sidebar_container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+main {
+  width: 100%;
+}
+.sidebar {
+  color: #fff;
+  height: 100vh;
+  width: 200px;
+  transition: all 0.5s;
+  overflow: hidden;
+}
+.top_section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 15px;
+}
+
+.bars {
+  display: flex;
+  font-size: 25px;
+  margin-left: 50px;
+  cursor: pointer;
+}
+.link {
+  display: flex;
+  padding: 10px 15px;
+  gap: 15px;
+  text-decoration: none;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+.email_text {
+  margin-left: 17px !important;
+}
