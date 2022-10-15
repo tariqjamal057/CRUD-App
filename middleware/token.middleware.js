@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 
-let checkToken = (req, res, next) => {
+let checkToken = (req, res,next ) => {
   let token =
     req.body.token || req.query.token || req.headers["x-access-token"] || req.headers["authorization"];
   console.log("Not Sliced",token);
-  token = token.slice(7, token.length);
+  // token = token.slice(7, token.length);
   console.log("Sliced",token);
   if (token) {
     jwt.verify(token, "hello", (err, decoded) => {
@@ -15,6 +15,7 @@ let checkToken = (req, res, next) => {
         });
       } else {
         req.decoded = decoded;
+        console.log(req.decoded);
         next();
       }
     });

@@ -25,3 +25,41 @@ select[readonly]
 {
     pointer-events: none;
 }
+
+
+.dashboard_columns {
+  max-width: 90%;
+  background-color: aqua !important;
+  margin: 0px 10px;
+}
+
+.dashboard_count_card:hover {
+  background-color: #cfe2ff !important;
+  cursor: pointer !important;
+  color: #fff !important;
+}
+
+@media(max-width : 700px) {
+  .dashboard_banner {
+    flex-direction: column-reverse;
+  }
+  .dashboard_banner_text {
+    width: 100% !important;
+  }
+  .dashboard_banner_image {
+    width: 70% !important;
+  }
+}
+
+
+.complaint_container {
+  height: 90vh !important;
+  overflow: scroll;
+}
+
+/* .complaint_table_container {
+  min-height: 100% !important;
+  max-height: 90% !important;
+  background-color: aquamarine !important;
+  overflow: scroll;
+} */

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-// import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  //   const history = useNavigate();
+  const history = useNavigate();
   const [id, setID] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,62 +20,82 @@ const Login = () => {
       toast.warning("Password should not be empty", {
         position: "bottom-right",
       });
+    } else if (id && password) {
+      const data = await fetch("http://localhost:4500/user/person_login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pid: id,
+          pwd: password,
+        }),
+      });
+
+      const res = await data.json();
+      console.log(res);
+
+      if (res.error === "email") {
+        toast.error(res.message, {
+          position: "bottom-right",
+        });
+      } else if (res.message === "Loggedin") {
+        toast.success("Login Successfull", {
+          position: "bottom-right",
+        });
+        localStorage.setItem("token", res.token);
+        if (res.data.prole === "e") {
+          setTimeout(() => {
+            history("/");
+          }, 3500);
+        } else {
+          setTimeout(() => {
+            history("/dashboard");
+          }, 3500);
+        }
+      }
     }
-
-    //     const data = await fetch("http://localhost:3001/auth/login", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         email,
-    //         password,
-    //       }),
-    //     });
-
-    //     const res = await data.json();
-    //     console.log(res);
-
-    //     if (res.error === "email") {
-    //       toast.error("Email is incorrect!", {
-    //         position: "bottom-right",
-    //       });
-    //     } else if(email === '') {
-    //       toast.warning(res.message, {
-    //         position: "bottom-right",
-    //       });
-    //     }
-    //     else if (res.error === "password") {
-    //       toast.error("Password is incorrect!", {
-    //         position: "bottom-right",
-    //       });
-    //     } else if(password === '') {
-    //       toast.warning(res.message, {
-    //         position: "bottom-right",
-    //       });
-    //     }
-    //     else if (res.message === "Loggedin") {
-    //       toast.success("Login Successfull", {
-    //         position: "bottom-right",
-    //       });
-    //       localStorage.setItem("token", res.token);
-    //       setTimeout(() => {
-    //         history("/");
-    //       }, 3500);
-    //     }
   };
+
+  const [userData, setUserData] = useState();
+
+  const navigate = useNavigate();
+
+  const DashboardValid = async () => {
+    let token = localStorage.getItem("token");
+    const res = await fetch("http://localhost:4500/user/persondetail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    const data = await res.json();
+    console.log(data.data);
+    if(data.data) {
+      if(data.data.prole === "e" || data.data.prole === "s") {
+        navigate("/");
+      }
+      else {
+        navigate("/dashboard");
+      }
+    }
+  };
+
+  useEffect(() => {
+    DashboardValid();
+  }, []);
 
   return (
     <>
       <div className="login_container">
         <nav className="navbar navbar-primary bg-primary shadow">
-          <div className="container">
-            <a className="navbar-brand d-flex justify-content-center align-items-center">
-              <span className="ms-2 mb-1 text-light fs-4 fw-bold">
-                Greverence App
-              </span>
-            </a>
-          </div>
+          <a className="navbar-brand d-flex justify-content-center align-items-center">
+            <span className="ms-md-5 ms-sm-3 mb-1 text-light fs-4 fw-bold">
+              Greverence App
+            </span>
+          </a>
         </nav>
         <div className="container-fluid mb-5">
           <div
@@ -94,7 +114,7 @@ const Login = () => {
                 <h3 className="my-4 login_form_heading">Employee Login</h3>
                 <form>
                   <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Email address</label>
+                    <label htmlFor="exampleInputEmail1">Email ID</label>
                     <input
                       type="email"
                       className="form-control input_field_color"
@@ -107,7 +127,7 @@ const Login = () => {
                       }}
                     />
                     <small id="emailHelp" className="form-text text-muted">
-                      We'll never share your email with anyone else.
+                      We'll never share your id with anyone else.
                     </small>
                   </div>
                   <div className="form-group">
