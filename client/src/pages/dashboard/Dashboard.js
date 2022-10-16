@@ -1,9 +1,56 @@
-import React from "react";
+import React ,{useState, useEffect} from "react";
 import Nav from "../../Components/Navbar/Nav";
 import Sidebar from "../../Components/Navbar/Sidebar";
 import { FaUserAlt } from "react-icons/fa";
 
 const Dashboard = () => {
+
+  const [pendingComplaint, setPendingComplaint] = useState()
+  const getPendingComplaint = async()=> {
+    const data = await fetch("http://localhost:4500/admin/get_total_pending_complaint", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const res = await data.json();
+    setPendingComplaint(res.data[0]);
+  }
+
+  const [totalStudent, setTotalStudent] = useState()
+  const getTotalStudent = async()=> {
+    const data = await fetch("http://localhost:4500/admin/get_total_student", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const res = await data.json();
+    setTotalStudent(res.data[0]);
+  }
+
+
+  const [totalEmployee, setTotalEmployee] = useState()
+  const getTotalEmployee = async()=> {
+    const data = await fetch("http://localhost:4500/admin/get_total_employees", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const res = await data.json();
+    setTotalEmployee(res.data[0]);
+  }
+
+  useEffect(() => {
+    getPendingComplaint();
+    getTotalStudent();
+    getTotalEmployee();
+  }, [])
+  
   return (
     <>
       <div className="sidebar_container">
@@ -26,7 +73,7 @@ const Dashboard = () => {
                   <h5 className="mt-1 ms-2">Total number of Employee</h5>
                 </div>
                 <h4 className="text-info mt-2">
-                  3 <small className="">employees</small>
+                  { totalEmployee ? totalEmployee.employee : 0 } <small className="">employees</small>
                 </h4>
               </div>
               <div className="col-md-3 col-sm-5 shadow-sm bg-white rounded dashboard_columns dashboard_count_card mx-0 my-3 py-3 px-3">
@@ -35,16 +82,16 @@ const Dashboard = () => {
                   <h5 className="mt-1 ms-2">Total number of Students</h5>
                 </div>
                 <h4 className="text-info mt-2">
-                  3 <small className="">student</small>
+                  { totalStudent ? totalStudent.student : 0 } <small className="">student</small>
                 </h4>
               </div>
               <div className="col-md-3 col-sm-5 shadow-sm bg-white rounded dashboard_columns dashboard_count_card mx-0 my-3 py-3 px-3">
                 <div className="d-flex align-items-center text-primary">
                   <FaUserAlt />
-                  <h5 className="mt-1 ms-2">Total number of Complaint</h5>
+                  <h5 className="mt-1 ms-2">Total number of Pending Complaint</h5>
                 </div>
                 <h4 className="text-info mt-2">
-                  3 <small className="">complaints</small>
+                  { pendingComplaint ? pendingComplaint.pending : 0 } <small className="">complaints</small>
                 </h4>
               </div>
             </div>

@@ -114,7 +114,7 @@ const InChargeComplaint = () => {
                 <th scope="col">#</th>
                 <th scope="col">ID</th>
                 <th scope="col">Category</th>
-                <th scope="col">Discription</th>
+                <th scope="col">Description</th>
                 <th scope="col">Status</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
@@ -352,7 +352,7 @@ const InChargeComplaint = () => {
                                       aria-label="Default select example"
                                       id="ccat"
                                       value={
-                                        status
+                                        status ? status : ( complaintById ? complaintById.status : status )
                                       }
                                       onChange={(e) => {
                                         setStatus(e.target.value);

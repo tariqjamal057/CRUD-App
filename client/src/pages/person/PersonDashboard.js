@@ -268,19 +268,7 @@ const PersonDashboard = () => {
                       <td>{recentcomplain.ccat}</td>
                       <td>{recentcomplain.description}</td>
                       <td>
-                        {recentcomplain.status === "c" ||
-                        recentcomplain.status === "cl"
-                          ? recentcomplain.status === "c"
-                            ? "Created"
-                            : recentcomplain.status === "cl" ||
-                              recentcomplain.status === "pe"
-                            ? recentcomplain.status === "cl"
-                              ? "Closed"
-                              : "pending"
-                            : recentcomplain.status === "pa"
-                            ? "Paused"
-                            : "Raised to admin"
-                          : "Raised to admin"}
+                        {recentcomplain.status}
                       </td>
                       <td>
                         <button

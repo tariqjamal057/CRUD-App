@@ -68,7 +68,7 @@ routes.post("/generate_compalint", token.checkToken, (req, res) => {
 
   const category = req.body.ccat;
   const description = req.body.description;
-  const status = "c";
+  const status = "pe";
   const pid = req.decoded.id;
 
   db.query(
@@ -210,10 +210,15 @@ routes.post("/update_status_by_id", token.checkToken, (req, res) => {
   const status = req.body.status;
   console.log(status);
   console.log(cid);
+  var date = null;
+  if(status === "cl") {
+    date = new Date();
+  }
+  console.log(date);
   db.query(
     `update ttcomplaint set status = ${db.escape(
       status
-    )} where eid =  ${db.escape(pid)} and cid = ${db.escape(cid)}`,
+    )}, cldate = ${db.escape(date)} where eid =  ${db.escape(pid)} and cid = ${db.escape(cid)}`,
     (err, result) => {
       if (err) {
         res.send({

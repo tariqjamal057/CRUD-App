@@ -287,4 +287,49 @@ routes.post("/update_category",(req,res)=> {
     });
   }
 })
+
+
+routes.get("/get_total_student",(req,res)=> {
+  db.query(`select count(pid) as student from ttpdetail where prole = "s"`,(err,result)=> {
+    if (err) {
+      res.send({
+        error: err,
+      });
+    } else if (result) {
+      res.send({
+        data: result
+      });
+    }
+  })
+});
+
+routes.get("/get_total_employees",(req,res)=> {
+  db.query(`select count(pid) as employee from ttpdetail where prole = "e"`,(err,result)=> {
+    if (err) {
+      res.send({
+        error: err,
+      });
+    } else if (result) {
+      res.send({
+        data: result
+      });
+    }
+  })
+});
+
+routes.get("/get_total_pending_complaint",(req,res)=> {
+  db.query(`select count(cid) as pending from ttcomplaint where status != "cl"`,(err,result)=> {
+    if (err) {
+      res.send({
+        error: err,
+      });
+    } else if (result) {
+      res.send({
+        data: result
+      });
+    }
+  })
+});
+
+
 module.exports = routes;

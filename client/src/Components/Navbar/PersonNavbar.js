@@ -116,7 +116,7 @@ const PersonNavbar = () => {
                     >
                       <li>
                         <Link
-                          className="dropdown-item text-primary btn btn-white"
+                          className="dropdown-item text-primary btn btn-white" to="/login"
                           onClick={logout}
                         >
                           Logout
