@@ -58,6 +58,21 @@ const Department = () => {
     getDepartment();
   }, []);
 
+  const [deptById, setDeptById] = useState();
+  const getDepartmentById = async(did)=> {
+    const data = await fetch("http://localhost:4500/admin/department", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        did: did,
+      }),
+    });
+
+    const res = await data.json();
+    setDeptById(res.data[0]);
+  }
   
   // update department 
   const [dname, setDname] = useState();
@@ -87,6 +102,7 @@ const Department = () => {
       toast.success(res.message, {
         position: "bottom-right",
       });
+      setDname('');
       setTimeout(() => {
         history("/add-department");
       }, 2000);
@@ -196,6 +212,7 @@ const Department = () => {
                               className="btn btn-primary"
                               data-bs-toggle="modal"
                               data-bs-target="#departmentModal"
+                              onClick={()=> { getDepartmentById(departments.did) }}
                             >
                               Update
                             </button>
@@ -236,7 +253,7 @@ const Department = () => {
                                             type="text"
                                             className="form-control"
                                             id="ename"
-                                            value={ dname ? dname : departments.dname}
+                                            value={ dname ? dname : ( deptById ? deptById.dname : dname )}
                                             onChange={(e) => {
                                               setDname(e.target.value);
                                             }}
@@ -256,7 +273,7 @@ const Department = () => {
                                         type="button"
                                         class="btn btn-primary"
                                         onClick={() => {
-                                          UpdateDept(departments.did);
+                                          UpdateDept(deptById.did);
                                         }}
                                       >
                                         Update
